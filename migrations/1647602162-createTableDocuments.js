@@ -3,7 +3,8 @@ exports.up = async (sql) => {
   await sql`
 	CREATE TABLE documents (
 		id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-		content text,
+    document_title text,
+		document_content text,
 		owner_id integer REFERENCES users (id)
     );
   `;

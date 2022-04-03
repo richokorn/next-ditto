@@ -1,10 +1,14 @@
 import { css } from '@emotion/react';
-import { useState } from 'react';
+import AccountManagement from './AccountManagement';
 import CaretButtons from './CaretButtons';
 import DocumentManagement from './DocumentManagement';
 import Sliders from './Sliders';
+import WordCount from './WordCount';
 
 const sidebar = css`
+  overflow-y: auto;
+  overflow-x: hidden;
+
   position: sticky;
   top: 0;
   bottom: 0;
@@ -12,75 +16,100 @@ const sidebar = css`
   display: flex;
   flex-direction: column;
   height: 100vh;
+  padding-left: 0.5em;
+  padding-right: 1em;
 
   align-items: center;
 `;
 
-const hiddenItemStyle = css`
-  margin-top: 1em;
-  margin-bottom: 1em;
-  width: 75%;
-  opacity: 0;
+const formStyle = css`
+  display: flex;
 
-  &:first-child {
-    margin-top: 100px;
+  justify-content: center;
+
+  color: inherit;
+  background: #00000000;
+  border-radius: 0.2em;
+  transition: 0s;
+  opacity: 0.7;
+
+  &:not(:first-child) {
+    margin-left: 0.2em;
   }
 
-  & * {
-    width: 100%;
-  }
-`;
-
-const sidebarItemStyle = css`
-  margin-top: 1em;
-  margin-bottom: 1em;
-  width: 75%;
-  opacity: 0.5;
-
-  &:focus,
   &:hover {
+    border: solid 2px #e6e6e6;
     opacity: 1;
   }
 
-  &:first-child {
-    margin-top: 100px;
+  &,
+  &:active {
+    opacity: 0.7;
   }
-  & * {
-    width: 100%;
+`;
+
+const buttonStyle = css`
+  display: flex;
+  height: 2em;
+  padding: 0.5em;
+  border-radius: 0.2em;
+  transition: 0s;
+  opacity: 0.7;
+
+  &:not(:first-child) {
+    margin-left: 0.2em;
+  }
+
+  &:hover {
+    /* border: inherit; */
+    border: solid 2px white;
+    opacity: 1;
+  }
+
+  &,
+  &:active {
+    opacity: 0.7;
   }
 `;
 
 export default function Sidebar(props) {
-  const [isShown, setIsShown] = useState(false);
   return (
-    <div
-      className="vWrapper"
-      css={sidebar}
-      onMouseEnter={() => setIsShown(true)}
-      onMouseLeave={() =>
-        setTimeout(() => {
-          setIsShown(false);
-        }, 150)
-      }
-      style={{
-        width: isShown ? '15vw' : '2em',
-        minWidth: '2em',
-        background: isShown ? '#4d4d4d' : '#383838',
-      }}
-    >
+    <div className="vWrapper" css={[sidebar, props.isShown]}>
+      <h2>Ditto</h2>
       <DocumentManagement
-        sidebarItemStyle={isShown ? sidebarItemStyle : hiddenItemStyle}
+        formStyle={formStyle}
+        sidebarItemStyle={props.sidebarItemStyle}
+        buttonStyle={buttonStyle}
+        documentListByUserId={props.documentListByUserId}
+        setPassedDocumentContent={props.setPassedDocumentContent}
+        updateDocumentById={props.updateDocumentById}
       />
+      <hr />
       <Sliders
-        sidebarItemStyle={isShown ? sidebarItemStyle : hiddenItemStyle}
+        setHovered={props.setHovered}
+        sidebarItemStyle={props.sidebarItemStyle}
         setSliderValueWidth={props.setSliderValueWidth}
         sliderValueWidth={props.sliderValueWidth}
         sliderValueFontSize={props.sliderValueFontSize}
         setSliderValueFontSize={props.setSliderValueFontSize}
       />
       <CaretButtons
-        sidebarItemStyle={isShown ? sidebarItemStyle : hiddenItemStyle}
+        sidebarItemStyle={props.sidebarItemStyle}
+        buttonStyle={buttonStyle}
         setCaretColor={props.setCaretColor}
+      />
+      <hr />
+      <WordCount
+        sidebarItemStyle={props.sidebarItemStyle}
+        counts={props.counts}
+      />
+      <hr />
+      <AccountManagement
+        formStyle={formStyle}
+        sidebarItemStyle={props.sidebarItemStyle}
+        logoutUser={props.logoutUser}
+        loginUser={props.loginUser}
+        registerUser={props.registerUser}
       />
     </div>
   );

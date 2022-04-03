@@ -1,18 +1,15 @@
 const users = [
   {
     // id: 1,
-    username: 'rico',
-    password_hash: 'rico',
+    username: 'Test',
+    password_hash:
+      '$2b$12$9QnT3gwG6NNy0I85aoJ0A.rW05LuGaV.fv21p2sUAORAhZiiQEGce',
   },
   {
     // id: 2,
     username: 'test',
-    password_hash: 'test',
-  },
-  {
-    // id: 3,
-    username: 'karl',
-    password_hash: 'karl',
+    password_hash:
+      '$2b$12$fPYqd2SrAadS8zeG7EYG2OQaF8gp800oCecnofyt0wvI9Ut6oiVV2',
   },
 ];
 
@@ -29,8 +26,7 @@ exports.down = async (sql) => {
         users
       WHERE
 			username = ${user.username} AND
-			password_test = ${user.password_test} AND
-			document_ids = ${user.document_ids}
+			password_hash = ${user.password_hash}
     `;
   }
 };

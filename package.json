@@ -21,9 +21,11 @@
     "camelcase-keys": "^7.0.2",
     "cookie": "^0.4.2",
     "csrf": "^3.1.0",
+    "deep-trim": "^1.0.0",
     "dotenv-cli": "^5.0.0",
     "dotenv-safe": "^8.2.0",
     "js-cookie": "^3.0.1",
+    "just-the-words": "^0.1.2",
     "ley": "^0.7.1",
     "next": "12.1.0",
     "pg-connection-string": "^2.5.0",
@@ -33,7 +35,10 @@
     "sharp": "^0.30.2",
     "slate": "^0.75.0",
     "slate-react": "^0.75.0",
-    "sql": "^0.78.0"
+    "split-string-words": "^1.1.0",
+    "sql": "^0.78.0",
+    "synonyms": "^1.0.1",
+    "thesaurus": "^0.0.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.17.0",

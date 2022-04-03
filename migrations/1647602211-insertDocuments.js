@@ -1,30 +1,30 @@
 const documents = [
   {
-    // id: 1,
-    content: 'Test Document 1: This is a test document',
+    document_title: 'Doc1-Owner1-Raw-String',
+    document_content: 'Raw Text String',
     owner_id: 1,
   },
   {
-    // id: 2,
-    content: 'Test Document 2: This is a test document',
-    owner_id: 2,
+    document_title: 'Doc2-Owner1-Object-String',
+    document_content: '[{"type":"paragraph","children":[{"text":"This is text inside of an object that Slate can read"}]}]',
+    owner_id: 1,
   },
   {
-    // id: 3,
-    content: 'Test Document 3: This is a test document',
+    document_title: 'Doc3-Owner2-Object-String',
+    document_content: '[{"type":"paragraph","children":[{"text":"This is the third document"}]}]',
     owner_id: 2,
-  },
-  {
-    // id: 4,
-    content: 'Test Document 4: This is a test document',
-    owner_id: 3,
   },
 ];
 
 exports.up = async (sql) => {
   await sql`
-    INSERT INTO documents ${sql(documents, 'content', 'owner_id')}
-    RETURNING content, owner_id;
+    INSERT INTO documents ${sql(
+      documents,
+      'document_title',
+      'document_content',
+      'owner_id',
+    )}
+    RETURNING document_title, document_content, owner_id;
       `;
 };
 
@@ -34,9 +34,10 @@ exports.down = async (sql) => {
       DELETE FROM
         documents
       WHERE
-			content = ${document.content} AND
+      document_title = ${document.document_title} AND
+			document_content = ${document.document_content} AND
 			owner_id = ${document.owner_id}
-      RETURNING content, owner_id;
+      RETURNING document_title, document_content, owner_id;
     `;
   }
 };

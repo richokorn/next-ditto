@@ -29,52 +29,40 @@ const green = css`
   background: #00ff00;
 `;
 
-const button = css`
-  display: flex;
-
-  margin-top: 1em;
-  height: 2em;
-  padding: 0.5em;
-  border-radius: 0.2em;
-  transition: 0s;
-  opacity: 0.7;
-
-  &:hover {
-    border: inherit;
-    border: solid 2px white;
-    opacity: 1;
-  }
-`;
-
 export default function CaretButtons(props) {
   return (
     <div css={props.sidebarItemStyle}>
-      <div>Caret </div>
-      <button
-        css={[white, button]}
-        onClick={() => props.setCaretColor('white')}
-      />
-      <button
-        css={[yellow, button]}
-        onClick={() => props.setCaretColor('yellow')}
-      />
-      <button
-        css={[orange, button]}
-        onClick={() => props.setCaretColor('orange')}
-      />
-      <button
-        css={[cyan, button]}
-        onClick={() => props.setCaretColor('cyan')}
-      />
-      <button
-        css={[magenta, button]}
-        onClick={() => props.setCaretColor('magenta')}
-      />
-      <button css={[red, button]} onClick={() => props.setCaretColor('red')} />
-      <button
-        css={[green, button]}
-        onClick={() => props.setCaretColor('green')}
-      />
+      <div>Caret Color</div>
+      <div className="xWrapper">
+        <button
+          css={[white, props.buttonStyle]}
+          onClick={() => props.setCaretColor('white')}
+        />
+        <button
+          css={[yellow, props.buttonStyle]}
+          onClick={() => props.setCaretColor('yellow')}
+        />
+        <button
+          css={[orange, props.buttonStyle]}
+          onClick={() => props.setCaretColor('orange')}
+        />
+        <button
+          css={[cyan, props.buttonStyle]}
+          onClick={() => props.setCaretColor('cyan')}
+        />
+        <button
+          css={[magenta, props.buttonStyle]}
+          onClick={() => props.setCaretColor('magenta')}
+        />
+        <button
+          css={[red, props.buttonStyle]}
+          onClick={() => props.setCaretColor('red')}
+        />
+        <button
+          css={[green, props.buttonStyle]}
+          onClick={() => props.setCaretColor('green')}
+        />
+      </div>
     </div>
   );
 }
