@@ -9,12 +9,12 @@ const ulStyle = css`
 
 export default function WordCount(props) {
   if (props.counts !== undefined) {
-    console.log('WordCount.js props.counts: ', props.counts);
+    // console.log('WordCount.js props.counts: ', props.counts);
     const swapped = Object.entries(props.counts).map(([key, value]) => [
       value,
       key,
     ]);
-    console.log('WordCount.js swapped: ', swapped);
+    // console.log('WordCount.js swapped: ', swapped);
     swapped.sort((a, b) => b[0] - a[0]);
 
     const numbs = swapped.map((word) =>

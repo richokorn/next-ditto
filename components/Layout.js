@@ -87,20 +87,12 @@ export default function Layout(props) {
     return new Set(iterable).size;
   }
 
-  // console.log("countUnique(wordList):", countUnique(wordList));
-
   const arr = wordList;
   const counts = {};
 
   for (const num of arr) {
     counts[num] = counts[num] ? counts[num] + 1 : 1;
   }
-
-  // console.log('counts:', counts);
-
-  // console.log('Object.values(counts):', Object.values(counts));
-  // console.log('Object.keys(counts):', Object.keys(counts));
-  // console.log('Object.entries(counts):', Object.entries(counts));
 
   // End of magic
 

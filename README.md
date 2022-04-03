@@ -1,34 +1,43 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ditto
+
+_Write beautiful stories_
 
 ## Getting Started
 
-First, run the development server:
+- Fork the project and create a `.env` file in the root directory.
+- Populate it with the following entries to run it on `localhost:3000`:
+  - PGHOST=localhost
+  - PGPORT=5432
+  - PGDATABASE=(...)
+  - PGUSERNAME=(...)
+  - PGPASSWORD=(...)
+- Replace "(...)" with a value of your choice.
+- Open the project in VSCode and fire up a terminal...
+- Run `yarn` to download dependancies, install postgres with `yarn add postgres`
+- Start postgres with `postgres` and migrate necessary databases with `yarn ley up`
+- Finally, run the development server with `yarn dev`
+- Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+<hr>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## But what is Ditto?
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Ditto is a minimal, easy-on-the-eyes writer app that shows you which words you are repeating a bit too often.
+Design inspired by [CalmlyWriter Online](https://www.calmlywriter.com/online/), it implements [Slate]https://www.slatejs.org/ as its Editor.
+A RESTful API handles communication between Frontend and a PostgreSQL Database.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## What Can It Do?
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- You can type and edit stories of your choice!
+- A smooth yet minimalistic UI keeps you focused on the work
+- Some keyboard shortcuts exist:
+  - `Ctrl-1` - Toggle a H1 heading.
+  - `` Ctrl-` `` - Toggle a code-block. (You might **additionally** need `Shift` on european keyboards)
+  - `Ctrl-b` - Selected text becomes bold.
+  - `Ctrl-i` - Selected text becomes italic.
 
-## Learn More
+## Upcoming Features:
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Thesaurus to suggest alternate words to write, as you write.
+- More _What You See Is What You Get_ markdown realtime functionality, such as typing "##" to change to a `h2` heading.
+- Further formatting options.
