@@ -24,7 +24,7 @@ export default function DocumentManagement(props) {
       <label>
         Title
         <input
-          placeHolder="Title"
+          placeholder="Title"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
