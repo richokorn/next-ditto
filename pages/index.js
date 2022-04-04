@@ -1,14 +1,25 @@
 import Cookies from 'js-cookie';
 import Head from 'next/head';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import {
   getDocumentsByUserId,
+  getUserByValidSessionToken,
   getUserIdByValidSessionToken,
-  // updateDocumentById,
 } from '../util/database';
+import { getLocalStorage } from '../util/getLocalStorage';
 
 export default function Home(props) {
+  let documentId;
+  let documentTitle;
+  let documentContent;
+
+  if (typeof window !== 'undefined') {
+    documentId = localStorage.getItem('documentId');
+    documentTitle = localStorage.getItem('documentTitle');
+    documentContent = localStorage.getItem('documentContent');
+  }
+
   const [errors, setErrors] = useState([]);
 
   // Create a new document for a logged in user.
@@ -19,45 +30,44 @@ export default function Home(props) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        title: localStorage.getItem('documentTitle'),
-        content: localStorage.getItem('documentContent'),
+        documentTitle: 'New Document',
       }),
     });
 
     const createDocumentResponseBody = await createDocumentResponse.json();
     console.log('createDocumentResponseBody ', createDocumentResponseBody);
-
-    if ('errors' in createDocumentResponseBody) {
-      setErrors(createDocumentResponseBody.errors);
-      console.log(
-        'Errors in registerResponseBody: ',
-        createDocumentResponseBody.errors,
-      );
-      return;
-    }
+    localStorage.setItem('documentId', createDocumentResponseBody.id);
+    localStorage.setItem(
+      'documentTitle',
+      createDocumentResponseBody.documentTitle,
+    );
 
     // Redirect to the new document.
+    window.location.reload();
   }
 
   // Update a document for a logged in user.
-  async function updateDocument(documentId, title, content) {
+  async function updateDocument() {
     const updateDocumentResponse = await fetch('/api/document', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        documentId: localStorage.getItem('documentId'),
-        title: localStorage.getItem('title'),
-        content: localStorage.getItem('content'),
+        documentId: documentId,
+        documentTitle: documentTitle,
+        documentContent: documentContent,
       }),
     });
+    window.location.reload();
   }
 
   // // Bonus feature: Autosave
-  if (props.sessionToken) {
-    setInterval(updateDocument(), 5000);
-  }
+
+  // Abstract the intervals into an object so we can clear them later.
+  // const myIntervals = {};
+
+  // Check for a session token, and only run the autosave if we have one.
 
   // Delete a document for a logged in user.
   async function deleteDocument(documentId) {
@@ -66,15 +76,18 @@ export default function Home(props) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ documentId }),
+      body: JSON.stringify({
+        documentId: documentId || localStorage.getItem('documentId'),
+      }),
     });
+    window.location.reload();
   }
 
   // // CRUD - Users
 
   // Create a new user.
   async function registerUser(username, password) {
-    console.log(`// TESTING index.js registerUser(${username}, ${password}); `);
+    // console.log(`// TESTING index.js registerUser(${username}, ${password}); `);
     const registerResponse = await fetch('/api/account', {
       method: 'POST',
       headers: {
@@ -101,8 +114,8 @@ export default function Home(props) {
   }
 
   async function loginUser(username, password) {
-    console.log('// TESTING PURPOSES Login Attempt - Username: ', username);
-    console.log('// TESTING PURPOSES Login Attempt - Password: ', password);
+    // console.log('// TESTING Login Attempt - Username: ', username);
+    // console.log('// TESTING Login Attempt - Password: ', password);
 
     const loginResponse = await fetch('/api/account', {
       method: 'GET',
@@ -118,7 +131,7 @@ export default function Home(props) {
     });
 
     const loginResponseBody = await loginResponse.json();
-    console.log('// TESTING PURPOSES loginResponseBody ', loginResponseBody);
+    // console.log('// TESTING loginResponseBody ', loginResponseBody);
 
     if ('errors' in loginResponseBody) {
       setErrors(loginResponseBody.errors);
@@ -154,11 +167,14 @@ export default function Home(props) {
       </Head>
 
       <Layout
-        logoutUser={logoutUser}
+        username={props.username}
+        createDocument={createDocument}
+        updateDocument={updateDocument}
+        deleteDocument={deleteDocument}
         loginUser={loginUser}
         registerUser={registerUser}
+        logoutUser={logoutUser}
         documentListByUserId={props.documentListByUserId}
-        supressHydrationWarning
       />
     </div>
   );
@@ -166,13 +182,12 @@ export default function Home(props) {
 
 export async function getServerSideProps(context) {
   // // Get a list of documents for the user by userId
-
   let documentListByUserId = [];
   const sessionToken = context.req.cookies.sessionToken;
-  console.log('// TESTING PURPOSES index.js sessionToken: ', sessionToken);
+  // console.log('// TESTING index.js sessionToken: ', sessionToken);
 
   if (!sessionToken) {
-    console.error('// TESTING PURPOSES index.js sessionToken is not valid');
+    // console.error('// TESTING index.js sessionToken is not valid');
 
     return {
       props: {
@@ -183,19 +198,27 @@ export async function getServerSideProps(context) {
       },
     };
   }
+  const usernameWeird = await getUserByValidSessionToken(sessionToken);
+  const username = usernameWeird.username;
   const userIdWeird = await getUserIdByValidSessionToken(sessionToken);
   const userId = userIdWeird[0].id;
 
-  console.log('// TESTING PURPOSES index.js (clean) userId: ', userId);
+  // console.log('// TESTING index.js (clean) userId: ', userId);
 
   if (!Number(userId)) {
     console.error(
-      '// TESTING PURPOSES index.js (clean) userId is not valid or undefined',
+      '// TESTING index.js (clean) userId is not valid or undefined',
     );
   }
   documentListByUserId = await getDocumentsByUserId(userId);
 
-  return { props: { documentListByUserId: documentListByUserId } };
+  return {
+    props: {
+      documentListByUserId: documentListByUserId,
+      username: username,
+    },
+    // props: { documentListByUserId: documentListByUserId },
+  };
 }
 
 // // Here we attempted to use a "cleaner" method by fetching our list of documents using an API endpoint.

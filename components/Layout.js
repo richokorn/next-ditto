@@ -110,18 +110,21 @@ export default function Layout(props) {
           }}
         >
           <Sidebar
+            username={props.username}
+            createDocument={props.createDocument}
+            updateDocument={props.updateDocument}
+            deleteDocument={props.deleteDocument}
+            loginUser={props.loginUser}
+            registerUser={props.registerUser}
+            logoutUser={props.logoutUser}
             setHovered={setHovered}
             setCaretColor={setCaretColor}
             setSliderValueWidth={setSliderValueWidth}
             setSliderValueFontSize={setSliderValueFontSize}
             sidebarItemStyle={sidebarItemStyle}
-            logoutUser={props.logoutUser}
-            loginUser={props.loginUser}
-            registerUser={props.registerUser}
             documentListByUserId={props.documentListByUserId}
             isShown={isShown ? sidebarItemStyle : hiddenItemStyle}
             setPassedDocumentContent={setPassedDocumentContent}
-            updateDocumentById={props.updateDocumentById}
             counts={counts}
           />
         </div>

@@ -1,11 +1,11 @@
 exports.up = async (sql) => {
-  console.log('Creating table Documents...');
+  console.log('Creating table documents...');
   await sql`
 	CREATE TABLE documents (
 		id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     document_title text,
 		document_content text,
-		owner_id integer REFERENCES users (id)
+		user_id integer REFERENCES users (id)
     );
   `;
 };

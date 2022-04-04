@@ -6,26 +6,7 @@ import { createEditor, Editor, Point, Text, Transforms } from 'slate';
 import { Editable, Slate, withReact } from 'slate-react';
 import { getLocalStorage } from '../util/getLocalStorage';
 
-// These are the seperate kinds of blocks we would like render in our compoenent
-
-const testValue = [
-  {
-    type: 'heading1',
-    children: [{ text: 'Ctrl-1:  Heading' }],
-  },
-  {
-    type: 'paragraph',
-    children: [{ text: 'Ctrl-b:  Selected text becomes Bold' }],
-  },
-  {
-    type: 'paragraph',
-    children: [{ text: 'Ctrl-i:  Selected text becomes Bold' }],
-  },
-  {
-    type: 'paragraph',
-    children: [{ text: 'Ctrl-`:  Code-Block' }],
-  },
-];
+// These are the seperate kinds of blocks we would like render in our component
 
 const CodeElement = (props) => {
   return (

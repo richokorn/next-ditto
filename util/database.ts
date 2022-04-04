@@ -155,46 +155,50 @@ export async function deleteUser(username: string) {
 
 // CRUD - documents TypeScript Definitions
 
-// export type Document = {
-//   id?: number;
-//   documentTitle?: string;
-//   documentContent?: string;
-//   ownerId?: number;
-// };
-
-export type Document = {
+export type DocumentWithId = {
   id: number;
-  document_title: string;
-  document_content: string;
-  owner_id: number | null;
+  documentTitle: string | null;
+  documentContent: string | null;
+  userId: number | null;
+};
+
+export type DocumentWithoutId = {
+  documentTitle: string | null;
+  documentContent: string | null;
+  userId: number | null;
+};
+
+export type DocumentNew = {
+  documentTitle: string | null;
+  userId: number;
 };
 
 // // CRUD - CREATE for documents
 export async function createDocument(
-  documentTitle: string,
-  documentContent: string,
-  ownerId: number,
+  documentTitle: string | null,
+  userId: number,
 ) {
-  const [document] = await sql<Document[]>`
+  // console.log('// TESTING database.ts createDocument(user_id):', userId);
+  const [document] = await sql<DocumentNew[]>`
   INSERT INTO
-    documents (document_title, document_content, owner_id)
+    documents (document_title, user_id)
   VALUES
-    (${documentTitle}, ${documentContent}, ${ownerId})
+    (${documentTitle}, ${userId})
   RETURNING *
   `;
   return camelcaseKeys(document);
 }
 
 // // CRUD - READ ALL documents by UserId
-export async function getDocumentsByUserId(id: number) {
-  console.log('postgres - passed id: ', id);
-  const documents = await sql<Document[]>`
+export async function getDocumentsByUserId(userId: number) {
+  // console.log('// TESTING database.js getDocumentsByUserId(id) - id: ', id);
+  const documents = await sql<DocumentWithId[]>`
     SELECT * FROM
       documents
     WHERE
-      owner_id = ${id}
+      user_id = ${userId}
   `;
-  console.log('postgres - documents: ', documents);
+  // console.log('// TESTING database.js documents: ', documents);
 
   return documents.map((document) => camelcaseKeys(document));
 }
@@ -210,40 +214,40 @@ export async function getDocumentById(id: number, userId: number) {
     documents
   WHERE
     id = ${id} AND
-    owner_id = ${userId}
+    user_id = ${userId}
   `;
   return document && camelcaseKeys(document);
 }
 
 // // CRUD - UPDATE for single document
 export async function updateDocumentById(
-  id: number,
+  userId: number,
+  documentId: number,
   documentTitle: string,
   documentContent: string,
-  ownerId: number,
 ) {
-  const [document] = await sql<[Document | undefined]>`
+  const [document] = await sql<[DocumentWithId | undefined]>`
     UPDATE
       documents
     SET
       document_title = ${documentTitle},
       document_content = ${documentContent}
     WHERE
-      id = ${id} AND
-      owner_id = ${ownerId}
+      id = ${documentId} AND
+      user_id = ${userId}
     RETURNING *
   `;
   return document && camelcaseKeys(document);
 }
 
 // // CRUD - DELETE for single document
-export async function deleteDocumentById(id: number, ownerId: number) {
-  const [document] = await sql<[Document | undefined]>`
+export async function deleteDocumentById(id: number, userId: number) {
+  const [document] = await sql<[DocumentWithId | undefined]>`
     DELETE FROM
       documents
     WHERE
       id = ${id} AND
-      owner_id = ${ownerId}
+      user_id = ${userId}
     RETURNING *
   `;
   return document && camelcaseKeys(document);

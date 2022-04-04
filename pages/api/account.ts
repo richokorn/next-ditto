@@ -72,10 +72,7 @@ export default async function handler(
     // 2. Create the session
     const session = await createSession(token, user.id);
 
-    console.log(
-      '// TESTING PURPOSES account.ts POST (Register) createSession() session: ',
-      session,
-    );
+    // console.log('// TESTING account.ts POST (Register) createSession() session: ', session);
 
     // 3. Serialize the cookie
     const serializedCookie = await createSerializedRegisterSessionTokenCookie(
@@ -145,10 +142,7 @@ export default async function handler(
     // 2. Create the session
     const session = await createSession(sessionToken, userWithPasswordHash.id);
 
-    console.log(
-      '// TESTING PURPOSES account.ts GET (Login) createSession() session: ',
-      session,
-    );
+    // console.log('// TESTING account.ts GET (Login) createSession() session: ',session);
 
     // 3. Serialize the cookie
     const serializedCookie = await createSerializedRegisterSessionTokenCookie(

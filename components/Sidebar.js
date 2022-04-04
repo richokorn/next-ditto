@@ -33,7 +33,7 @@ const formStyle = css`
   transition: 0s;
   opacity: 0.7;
 
-  &:not(:first-child) {
+  &:not(:first-of-type) {
     margin-left: 0.2em;
   }
 
@@ -56,7 +56,7 @@ const buttonStyle = css`
   transition: 0s;
   opacity: 0.7;
 
-  &:not(:first-child) {
+  &:not(:first-of-type) {
     margin-left: 0.2em;
   }
 
@@ -76,13 +76,17 @@ export default function Sidebar(props) {
   return (
     <div className="vWrapper" css={[sidebar, props.isShown]}>
       <h2>Ditto</h2>
+      <h4>Welcome {props.username}</h4>
+
       <DocumentManagement
+        createDocument={props.createDocument}
+        updateDocument={props.updateDocument}
+        deleteDocument={props.deleteDocument}
         formStyle={formStyle}
         sidebarItemStyle={props.sidebarItemStyle}
         buttonStyle={buttonStyle}
         documentListByUserId={props.documentListByUserId}
         setPassedDocumentContent={props.setPassedDocumentContent}
-        updateDocumentById={props.updateDocumentById}
       />
       <hr />
       <Sliders

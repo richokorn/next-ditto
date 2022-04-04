@@ -18,23 +18,17 @@ export default async function handler(req, res) {
 
   // Get userId from sessionToken, which we should now have.
   let userId = getUserIdByValidSessionToken(req.cookies.sessionToken);
-  console.log(
-    '// TESTING /api/document.js userId (might be unclean): ',
-    userId,
-  );
+  // console.log('// TESTING /api/document.js userId (might be unclean): ',userId,);
 
   // UserId is sometimes not a pure number, ie. is within an object array, so we need to convert it to a number.
   if (!Number(userId)) {
     userId = userId[0].id;
-    console.log(
-      '// TESTING /api/document.js (should now be clean) userId: ',
-      userId,
-    );
+    // console.log('// TESTING /api/document.js (should now be clean) userId: ', userId);
   }
 
   // Now we can get the documents for the user.
   documentListByUserId = await getDocumentsByUserId(userId);
-  console.log('// TESTING index.js documentList: ', documentListByUserId);
+  // console.log('// TESTING index.js documentList: ', documentListByUserId);
 
   // If the user has no documents, return an empty array.
   if (documentListByUserId.length === 0) {

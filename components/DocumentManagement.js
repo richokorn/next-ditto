@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { getLocalStorage } from '../util/getLocalStorage';
 
 export default function DocumentManagement(props) {
@@ -28,11 +28,6 @@ export default function DocumentManagement(props) {
             }}
           />
         </label>
-        <div>
-          <button css={props.formStyle} onClick={() => props.createDocument}>
-            New Document
-          </button>
-        </div>
         <hr />
         Documents:
         <div className="vWrapper">{content}</div>
@@ -78,22 +73,22 @@ export default function DocumentManagement(props) {
             placeholder="Document Title"
             value={documentTitle}
             onChange={(event) => {
-              localStorage.setItem(
-                'documentTitle',
-                JSON.stringify(event.currentTarget.value),
-              );
+              localStorage.setItem('documentTitle', event.currentTarget.value);
               setDocumentTitle(event.target.value);
             }}
           />
         </label>
-        <div>
-          <button css={props.formStyle} onClick={() => props.createDocument}>
-            New Document
-          </button>
-        </div>
+        <button css={props.formStyle} onClick={() => props.updateDocument()}>
+          Save Document
+        </button>
         <hr />
         Documents:
         <div className="vWrapper">{content}</div>
+        <div>
+          <button css={props.formStyle} onClick={() => props.createDocument()}>
+            New Document
+          </button>
+        </div>
       </div>
     );
   }
