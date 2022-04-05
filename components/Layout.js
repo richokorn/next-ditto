@@ -24,6 +24,7 @@ const spacerLeft = css`
   border-left: solid 1px #38383800;
 
   height: 90vh;
+  padding-top: 5em;
   width: 2em;
 `;
 const spacerRight = css`
@@ -136,8 +137,7 @@ export default function Layout(props) {
           }
           css={spacerLeft}
         />
-        <div>
-          {/* <h2>Slate Editor</h2> */}
+        <div style={{ paddingTop: '5em' }}>
           <br />
           <SlateEditor
             isolateWords={isolateWords}
