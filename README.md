@@ -23,7 +23,7 @@ _Write beautiful stories_
 ## But what is Ditto?
 
 Ditto is a minimal, easy-on-the-eyes writer app that shows you which words you are repeating a bit too often.
-Design inspired by [CalmlyWriter Online](https://www.calmlywriter.com/online/), it implements [Slate]https://www.slatejs.org/ as its Editor.
+Design inspired by [CalmlyWriter Online](https://www.calmlywriter.com/online/), it implements [Slate](https://www.slatejs.org/) as its Editor.
 A RESTful API handles communication between Frontend and a PostgreSQL Database.
 
 ## What Can It Do?
